@@ -1,0 +1,17 @@
+:root{
+  --cell-size: 40px
+}
+.main{
+  .board-row{
+    display: flex;
+    .board-cell{
+      width: var(--cell-size);
+      height: var(--cell-size);
+      border: 4px solid #6F7880;
+      border-bottom-color: #232A32;
+      border-right-color: #232A32;
+      background-color: #4D545C;
+      cursor: pointer;
+    }
+  }
+}
