@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import './App.css'
 
 const rows = 10;
@@ -39,8 +39,18 @@ function App() {
       const copyGrid = prev.map(row => row.map(cell => ({...cell})));
       copyGrid[r][c].isClicked = true;
       return copyGrid;
-    })
+    });
   }
+
+  const rightClickHandler = (e: React.MouseEvent, r: number,c: number) => {
+    e.preventDefault();
+    setBoard(prev => {
+      const copyGrid = prev.map(row => row.map(cell => ({...cell})));
+      copyGrid[r][c].isFlagged = !copyGrid[r][c].isFlagged;
+      return copyGrid;
+    });
+  }
+
   return (
     <>
       <header>
@@ -54,10 +64,20 @@ function App() {
                 row.map((cell, j) => {
                   const className = cell.isClicked ? "clicked" : ''
                   return (
-                    <button onClick={() => leftClickHandler(i,j)} key={j} className={`board-cell ${className}`}>
+                    <button
+                      onClick={() => leftClickHandler(i,j)}
+                      onContextMenu={(e: React.MouseEvent) => rightClickHandler(e,i,j)}
+                      key={j}
+                      className={`board-cell ${className}`}
+                    >
                       {
                         cell.isMine && (
-                          <span>M</span>
+                          <span>💣</span>
+                        )
+                      }
+                      {
+                        cell.isFlagged && (
+                          <span>🚩</span>
                         )
                       }
                     </button>

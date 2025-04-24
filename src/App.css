@@ -12,8 +12,12 @@
       border-right-color: #232A32;
       background-color: #4D545C;
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
       color: white;
+      font-size: 1.5rem;
 
       &.clicked{
         border: 1px solid #1E262E;
