@@ -23,6 +23,10 @@
         border: 1px solid #1E262E;
         background-color: #394048;
       }
+
+      &:has(.mine){
+        background-color: #ff0000;
+      }
     }
   }
 }

@@ -56,6 +56,7 @@ function App() {
   const [board, setBoard] = useState(createGrid())
 
   const leftClickHandler = (r: number,c: number) => {
+    if (board[r][c].isFlagged) return;
     setBoard(prev => {
       const copyGrid = prev.map(row => row.map(cell => ({...cell})));
       copyGrid[r][c].isClicked = true;
@@ -65,6 +66,7 @@ function App() {
 
   const rightClickHandler = (e: React.MouseEvent, r: number,c: number) => {
     e.preventDefault();
+    if (board[r][c].isClicked) return;
     setBoard(prev => {
       const copyGrid = prev.map(row => row.map(cell => ({...cell})));
       copyGrid[r][c].isFlagged = !copyGrid[r][c].isFlagged;
@@ -92,19 +94,18 @@ function App() {
                       className={`board-cell ${className}`}
                     >
                       {
-                        cell.isMine && (
-                          <span>💣</span>
-                        )
+                        cell.isClicked ? (
+                          cell.isMine ? (
+                            <span className="mine">💣</span>
+                          ) : cell.mineCount ? (
+                            <span>{cell.mineCount}</span>
+                          ) : null
+                        ) : null
                       }
                       {
                         cell.isFlagged && (
                           <span>🚩</span>
                         )
-                      }
-                      {
-                        cell.mineCount ? (
-                          <span>{cell.mineCount}</span>
-                        ) : null
                       }
                     </button>
                   )
