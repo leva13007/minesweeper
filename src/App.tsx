@@ -3,7 +3,7 @@ import './App.css'
 
 const rows = 10;
 const columns = 8;
-const mines = 4;
+const mines = 8;
 
 type Cell = {
   isMine: boolean;
@@ -85,10 +85,32 @@ function App() {
       setGameMsg("You are lost!");
     }
     setBoard(prev => {
-      const copyGrid = prev.map(row => row.map(cell => ({...cell})));
+      let copyGrid = prev.map(row => row.map(cell => ({...cell})));
       const cell = copyGrid[r][c];
       if (cell.mineCount === 0) {
         return waterFallHandler(copyGrid, r, c);
+      }
+
+      if (cell.mineCount > 0) {
+
+        const status = directions.every(([dr,dc]) => {
+          const cell = copyGrid?.[r+dr]?.[c+dc];
+          if (!cell) return true;
+          return cell.isMine ? cell.isFlagged : true;
+        });
+
+        if (status) {
+          console.log("cell.mineCount > 0", status)
+          directions.forEach(([dr,dc]) => {
+            const cell = copyGrid?.[r+dr]?.[c+dc];
+            if (!cell || cell.isMine) return;
+            if (cell.mineCount === 0) {
+              copyGrid = waterFallHandler(copyGrid, r+dr, c+dc);
+            } else {
+              cell.isClicked = true;
+            }
+          })
+        }
       }
 
       copyGrid[r][c].isClicked = true;
