@@ -12,6 +12,8 @@
       border-right-color: #232A32;
       background-color: #4D545C;
       cursor: pointer;
+
+      color: white;
     }
   }
 }
