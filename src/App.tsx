@@ -3,18 +3,20 @@ import './App.css'
 
 const rows = 10;
 const columns = 8;
-const mines = 4;
+const mines = 14;
 
 type Cell = {
   isMine: boolean;
   isFlagged: boolean;
   isClicked: boolean;
+  mineCount: number;
 }
 
 const grid: Cell[][] = Array(rows).fill(null).map(() => Array(columns).fill(null).map(() => ({
   isMine: false,
   isFlagged: false,
   isClicked: false,
+  mineCount: 0,
 })));
 
 const createGrid = (): Cell[][] => {
@@ -28,6 +30,25 @@ const createGrid = (): Cell[][] => {
       placedMines++;
     }
   }
+
+  const directions = [
+    [-1,-1], [-1,0], [-1,1],
+    [0, -1],         [0, 1],
+    [1,-1],  [1,0],  [1,1]
+  ]
+
+  for(let r = 0; r< rows; r++) {
+    for(let c = 0; c< columns; c++) {
+      if(copyGrid[r][c].isMine) continue;
+
+      let count = 0;
+      for (let [dr, dc] of directions){
+        if (copyGrid?.[r + dr]?.[c + dc]?.isMine) count++;
+      }
+      copyGrid[r][c].mineCount = count;
+    }
+  }
+
   return copyGrid;
 }
 
@@ -79,6 +100,11 @@ function App() {
                         cell.isFlagged && (
                           <span>🚩</span>
                         )
+                      }
+                      {
+                        cell.mineCount ? (
+                          <span>{cell.mineCount}</span>
+                        ) : null
                       }
                     </button>
                   )
