@@ -32,11 +32,15 @@ const createGrid = (): Cell[][] => {
 }
 
 function App() {
+  const [board, setBoard] = useState(createGrid())
 
-  const board = createGrid()
-  console.log(board);
-
-  const leftClickHandler = () => {}
+  const leftClickHandler = (r: number,c: number) => {
+    setBoard(prev => {
+      const copyGrid = prev.map(row => row.map(cell => ({...cell})));
+      copyGrid[r][c].isClicked = true;
+      return copyGrid;
+    })
+  }
   return (
     <>
       <header>
@@ -47,15 +51,18 @@ function App() {
           board.map((row,i) => (
             <div key={i} className="board-row">
               {
-                row.map((cell, j) => (
-                  <button onClick={leftClickHandler} key={j} className="board-cell">
-                    {
-                      cell.isMine && (
-                        <span>M</span>
-                      )
-                    }
-                  </button>
-                ))
+                row.map((cell, j) => {
+                  const className = cell.isClicked ? "clicked" : ''
+                  return (
+                    <button onClick={() => leftClickHandler(i,j)} key={j} className={`board-cell ${className}`}>
+                      {
+                        cell.isMine && (
+                          <span>M</span>
+                        )
+                      }
+                    </button>
+                  )
+                })
               }
             </div>
           ))
