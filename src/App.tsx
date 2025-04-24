@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import './App.css'
 
 const rows = 10;
@@ -74,10 +74,16 @@ const waterFallHandler = (g: Cell[][], row: number, col: number): Cell[][] => {
 }
 
 function App() {
-  const [board, setBoard] = useState(createGrid())
+  const [board, setBoard] = useState(createGrid());
+  const [isGameOver, setIsGameOver] = useState(false);
+  const [gameMsg, setGameMsg] = useState("");
 
   const leftClickHandler = (r: number,c: number) => {
-    if (board[r][c].isFlagged) return;
+    if (board[r][c].isFlagged || isGameOver) return;
+    if (board[r][c].isMine) {
+      setIsGameOver(true);
+      setGameMsg("You are lost!");
+    }
     setBoard(prev => {
       const copyGrid = prev.map(row => row.map(cell => ({...cell})));
       const cell = copyGrid[r][c];
@@ -92,7 +98,7 @@ function App() {
 
   const rightClickHandler = (e: React.MouseEvent, r: number,c: number) => {
     e.preventDefault();
-    if (board[r][c].isClicked) return;
+    if (board[r][c].isClicked || isGameOver) return;
     setBoard(prev => {
       const copyGrid = prev.map(row => row.map(cell => ({...cell})));
       copyGrid[r][c].isFlagged = !copyGrid[r][c].isFlagged;
@@ -100,10 +106,26 @@ function App() {
     });
   }
 
+  useEffect(() => {
+    const status = board.flat().every(cell => {
+      return (cell.isMine && !cell.isClicked) ||  (!cell.isMine && cell.isClicked)
+    });
+    if (status) {
+      setGameMsg("You win!");
+      setIsGameOver(true);
+    }
+  },[board])
+
+
   return (
     <>
-      <header>
+      <header className="header">
         <h1>Minesweeper</h1>
+        {
+          gameMsg && (
+            <p>{gameMsg}</p>
+          )
+        }
       </header>
       <main className="main">
         {

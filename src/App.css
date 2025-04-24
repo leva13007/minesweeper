@@ -1,6 +1,9 @@
 :root{
   --cell-size: 40px
 }
+.header {
+  height: 150px;
+}
 .main{
   .board-row{
     display: flex;
