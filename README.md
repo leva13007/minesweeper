@@ -1,54 +1,65 @@
-# React + TypeScript + Vite
+# 💣 Minesweeper in React + TypeScript
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Це реалізація класичної гри **Minesweeper (Сапер)**, створена в реальному часі під час стріму на YouTube 🎥
 
-Currently, two official plugins are available:
+> 🔴 **Код зі стріму "Live Coding #05 — Небезпечна гра з React та TypeScript"**
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+![stream_05.png](stream_05.png)
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🕹️ Про гру
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+- Реалізовано на **React + TypeScript**
+- Без бібліотек, шаблонів чи UI-фреймворків
+- Рекурсивне відкриття клітинок (flood fill)
+- Позначення мін прапорцями (right click)
+- Смарт-логіка: автоперевірка сусідів, підсвітка клітинок
+- Обробка перемоги та поразки
+
+---
+
+## 📺 Дивись стрім
+
+[➡️ Перейти до стріму на YouTube](https://youtube.com/live/KBO-aykbWkM?feature=share)
+
+---
+
+## 🚀 Як запустити
+
+```bash
+git clone https://github.com/leva13007/minesweeper.git
+cd minesweeper
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+⸻
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+🧠 Цілі стріму:
+* Показати як мислить розробник у реальному часі
+* Попрактикуватися в роботі з станом у React
+* Попрацювати з алгоритмами (рекурсія, flood fill, логіка перевірок)
+* Отримати задоволення від створення гри з нуля
+
+⸻
+
+🧩 Плановані фічі (можливо після стріму):
+* Кнопка “Нова гра”
+* Адаптивна складність (easy / normal / hard)
+* Таймер і лічильник прапорців
+* Анімація відкриття клітинок
+* Темна тема 🌙
+
+⸻
+
+📦 Ліцензія
+
+MIT — користуйся, змінюй, вивчай. І не забудь залишити ⭐️, якщо було корисно 😉
+
+⸻
+
+📣 Хештеги
+
+#nocourse #livecoding #react #typescript #minesweeper
