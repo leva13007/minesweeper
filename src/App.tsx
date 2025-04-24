@@ -3,7 +3,7 @@ import './App.css'
 
 const rows = 10;
 const columns = 8;
-const mines = 14;
+const mines = 4;
 
 type Cell = {
   isMine: boolean;
@@ -19,6 +19,12 @@ const grid: Cell[][] = Array(rows).fill(null).map(() => Array(columns).fill(null
   mineCount: 0,
 })));
 
+const directions = [
+  [-1,-1], [-1,0], [-1,1],
+  [0, -1],         [0, 1],
+  [1,-1],  [1,0],  [1,1]
+]
+
 const createGrid = (): Cell[][] => {
   const copyGrid = grid.map(row => row.map(cell => ({...cell})));
   let placedMines = 0;
@@ -30,12 +36,6 @@ const createGrid = (): Cell[][] => {
       placedMines++;
     }
   }
-
-  const directions = [
-    [-1,-1], [-1,0], [-1,1],
-    [0, -1],         [0, 1],
-    [1,-1],  [1,0],  [1,1]
-  ]
 
   for(let r = 0; r< rows; r++) {
     for(let c = 0; c< columns; c++) {
@@ -52,6 +52,27 @@ const createGrid = (): Cell[][] => {
   return copyGrid;
 }
 
+const waterFallHandler = (g: Cell[][], row: number, col: number): Cell[][] => {
+  const copyGrid = g.map(row => row.map(cell => ({...cell})));
+  const visited = new Set<string>();
+  const dfs = (r: number, c: number) => {
+    const key = `${r}-${c}`;
+    const cell = copyGrid?.[r]?.[c];
+    if (!cell || cell.isClicked || cell.isFlagged || visited.has(key)) return;
+
+    visited.add(key);
+    cell.isClicked = true;
+
+    if(cell.mineCount === 0 && !cell.isMine){
+      for (let [dr, dc] of directions){
+        dfs(r+dr, c+dc)
+      }
+    }
+  }
+  dfs(row, col);
+  return copyGrid;
+}
+
 function App() {
   const [board, setBoard] = useState(createGrid())
 
@@ -59,6 +80,11 @@ function App() {
     if (board[r][c].isFlagged) return;
     setBoard(prev => {
       const copyGrid = prev.map(row => row.map(cell => ({...cell})));
+      const cell = copyGrid[r][c];
+      if (cell.mineCount === 0) {
+        return waterFallHandler(copyGrid, r, c);
+      }
+
       copyGrid[r][c].isClicked = true;
       return copyGrid;
     });
