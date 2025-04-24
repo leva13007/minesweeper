@@ -124,7 +124,7 @@ function App() {
                           cell.isMine ? (
                             <span className="mine">💣</span>
                           ) : cell.mineCount ? (
-                            <span>{cell.mineCount}</span>
+                            <span className={`mine-count-${cell.mineCount}`}>{cell.mineCount}</span>
                           ) : null
                         ) : null
                       }
